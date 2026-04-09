@@ -1,0 +1,61 @@
+Referential Actions (in Databases)
+
+Referential Actions are rules applied between related tables (Parent & Child) using Foreign Keys.
+
+They define what happens to child records when the parent record is updated or deleted.
+
+📌 Common Referential Actions:
+CASCADE
+If parent is deleted → child is deleted automatically
+If parent is updated → child updates automatically
+👉 Keeps data consistent
+SET NULL
+If parent is deleted → child foreign key becomes NULL
+SET DEFAULT
+Child value becomes a default value
+RESTRICT / NO ACTION
+Prevent deleting parent if related child exists
+👉 Protects data from accidental deletion
+🧠 Example:
+Table: Departments (Parent)
+Table: Employees (Child)
+
+| Action   | Result                                   |
+| -------- | ---------------------------------------- |
+| CASCADE  | All employees deleted                    |
+| SET NULL | Employees keep working but no department |
+| RESTRICT | ❌ Cannot delete department               |
+---------------------------------------------------------
+
+DELETE vs TRUNCATE
+
+Both are used to remove data from a table, but they are very different.
+| Feature        | DELETE                           | TRUNCATE                       |
+| -------------- | -------------------------------- | ------------------------------ |
+| Type           | DML (Data Manipulation Language) | DDL (Data Definition Language) |
+| Remove         | Specific rows (with WHERE)       | All rows only                  |
+| WHERE allowed? | ✅ Yes                            | ❌ No                           |
+| Speed          | Slower                           | Very fast                      |
+| Rollback       | ✅ Can rollback                   | ❌ Usually cannot rollback      |
+| Identity reset | ❌ No                             | ✅ Yes (resets auto-increment)  |
+| Triggers       | ✅ Works                          | ❌ Does NOT fire triggers       |
+
+Example:
+DELETE:
+DELETE FROM Employees
+WHERE Salary < 3000;
+
+👉 Deletes only some rows
+
+TRUNCATE:
+TRUNCATE TABLE Employees;
+
+👉 Deletes ALL data instantly
+
+🔥 Key Idea (Very Important)
+Use DELETE when:
+You want to remove specific data
+You may need rollback
+Use TRUNCATE when:
+You want to remove ALL data quickly
+You don’t care about rollback or triggers
